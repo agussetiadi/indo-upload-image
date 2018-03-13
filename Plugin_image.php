@@ -18,7 +18,7 @@ class Plugin_image extends CI_Controller
 
 	public function upload(){
 		$file = 'IsName';
-		$path = "./assets/img/";
+		$path = "./assets/img/";/*asas*/
 		$result = $this->upload_image($path,$file,time());
 		$status = $result['status'];
 
