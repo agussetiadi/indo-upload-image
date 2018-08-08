@@ -17,12 +17,21 @@ Required : bootstrap4.bundle
 			file : 'unset',
 			imgOrigin : 'unset',
 			resultTo : 'unset',
-			path : 'unset'
+			path : 'unset',
+			success : 'unset',
+			cancel : 'unset'
 		}, objParam)
 
-		var selectorId = $(this)[0].id;
-		var selectorClass = $(this)[0].class;
-		var selectorName = $(this)[0].name;
+		if ($(this).length == 0) {
+			var selectorId = '';
+			var selectorClass = '';
+			var selectorName = '';	
+		}
+		else{
+			var selectorId = $(this)[0].id;
+			var selectorClass = $(this)[0].class;
+			var selectorName = $(this)[0].name;
+		}
 
 
 
@@ -46,6 +55,7 @@ Required : bootstrap4.bundle
 			var selectorFile = selectorName;
 			var selector = selectorFile;
 		}
+
 		
 
 		/*
@@ -81,7 +91,7 @@ Required : bootstrap4.bundle
 		return this.each(function(){
 
 			
-			$(selector).before('<div style="width:200px; position:relative" id="'+wrapSelectorFile+'"></div>');
+			$(selector).before('<div style="position:relative" id="'+wrapSelectorFile+'"></div>');
 			$(wrapSelector).html($(this));
 
 
@@ -105,7 +115,7 @@ Required : bootstrap4.bundle
 			$(progressBarSelector).hide();
 			
 			
-			$(document).on('change', this, function(){
+			$(this).on('change', function(){
 				ajaxSend({
 					url : setting.url,
 					method : setting.method,
@@ -124,7 +134,11 @@ Required : bootstrap4.bundle
 					$("."+wrapImgResult).attr('src', path+image);
 
 					if ($("#"+btnDelete).length == 0) {
-						$(wrapSelector).prepend('<button type="button" style="position:absolute; right: 0; top; 0" class="btn btn-danger btn-sm" id="'+btnDelete+'">Delete</button>');
+						$(wrapSelector).prepend('<button type="button" style="position:absolute; right: 0; top; 0" class="btn btn-danger btn-sm imgTrash" id="'+btnDelete+'"><span class="fa fa-trash"></span></button>');
+					}
+
+					if (setting.success !== 'unset') {
+						setting.success(data);
 					}
 				})
 			})
@@ -141,6 +155,10 @@ Required : bootstrap4.bundle
 
 				if (setting.imgOrigin == 'unset') {
 					$("."+wrapImgResult).hide();
+				}
+
+				if (setting.cancel !== 'unset') {
+					setting.cancel();
 				}
 
 
